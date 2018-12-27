@@ -1,0 +1,15 @@
+<div ms-class="modal-mask {{addClass}}" ms-visible="isShow" ms-click="onModalClose">
+    <div ms-class="modal-box {{addBoxClass}}">
+        <i ms-if="isShowCloseBtn" class="modal-close" ms-click="close"> </i>
+        <div ms-if="title" class="modal-header">
+            {{title | html}}
+        </div>
+        <div class="modal-body">
+            {{content | html}}
+        </div>
+        <div ms-if="cancelText || okText" class="modal-footer flex-h">
+            <button ms-if="cancelText" class="btncommon" ms-click="onCancel">{{cancelText}}</button>
+            <button ms-if="okText" class="btncommon" ms-click="onOk">{{okText}}</button>
+        </div>
+    </div>
+</div>
