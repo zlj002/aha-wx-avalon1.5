@@ -21,43 +21,62 @@ var webpackConfig = {
         hotUpdateChunkFilename: 'assets/js/[id].js',
         publicPath: '/'
     }
-}
+};
 
 webpackConfig = Object.assign(commonConfig, webpackConfig);
-//如果是mock环境添加mock数据 
+//如果是mock环境添加mock数据
 var env = args.env || 'dev';
 console.log(args);
 if (env == 'mock' || env == 'mockp2r') {
     var srcMockDir = path.resolve(__dirname, '../src/mock');
-    webpackConfig.entry = Object.assign(webpackConfig.entry, helpers.getEntry(srcMockDir + "/**/*.js", 'mockData'));
-    console.log("带mock的列表：" + JSON.stringify(webpackConfig.entry));
-    webpackConfig.resolve.alias = Object.assign(webpackConfig.resolve.alias, helpers.getEntry(srcMockDir + "/**/*.js"));
-    console.log("指向" + JSON.stringify(webpackConfig.resolve.alias));
+    webpackConfig.entry = Object.assign(
+        webpackConfig.entry,
+        helpers.getEntry(srcMockDir + '/**/*.js', 'mockData')
+    );
+    console.log('带mock的列表：' + JSON.stringify(webpackConfig.entry));
+    webpackConfig.resolve.alias = Object.assign(
+        webpackConfig.resolve.alias,
+        helpers.getEntry(srcMockDir + '/**/*.js')
+    );
+    console.log('指向' + JSON.stringify(webpackConfig.resolve.alias));
 } else if (env == 'mockhot' || env == 'mockp2rhot') {
     var srcMockDir = path.resolve(__dirname, '../src/mock');
-    webpackConfig.entry = Object.assign(webpackConfig.entry, helpers.getEntry(srcMockDir + "/**/*.js", 'mockData'));
-    console.log("带mock的列表：" + JSON.stringify(webpackConfig.entry));
-    webpackConfig.resolve.alias = Object.assign(webpackConfig.resolve.alias, helpers.getEntry(srcMockDir + "/**/*.js"));
-    console.log("指向" + JSON.stringify(webpackConfig.resolve.alias));
+    webpackConfig.entry = Object.assign(
+        webpackConfig.entry,
+        helpers.getEntry(srcMockDir + '/**/*.js', 'mockData')
+    );
+    console.log('带mock的列表：' + JSON.stringify(webpackConfig.entry));
+    webpackConfig.resolve.alias = Object.assign(
+        webpackConfig.resolve.alias,
+        helpers.getEntry(srcMockDir + '/**/*.js')
+    );
+    console.log('指向' + JSON.stringify(webpackConfig.resolve.alias));
 
     webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 } else if (env == 'hot') {
     webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
-console.log("dev文件列表：" + JSON.stringify(webpackConfig.entry));
+console.log('dev文件列表：' + JSON.stringify(webpackConfig.entry));
 if (env == 'mockp2r' || env == 'mockp2rhot') {
     webpackConfig.plugins.push(
         new webpack.LoaderOptionsPlugin({
             options: {
-                postcss: function () {
+                postcss: function() {
                     // return [precss, autoprefixer({
                     //     browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
                     // })];
-                    return [px2rem({
-                        remUnit: 75
-                    }), autoprefixer({
-                        browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
-                    })];
+                    return [
+                        px2rem({
+                            remUnit: 75
+                        }),
+                        autoprefixer({
+                            browers: [
+                                'last 2 versions',
+                                'ie >= 9',
+                                '> 5% in CN'
+                            ]
+                        })
+                    ];
                 },
                 htmlLoader: {
                     ignoreCustomFragments: [/\{\{.*?}}/],
@@ -66,15 +85,22 @@ if (env == 'mockp2r' || env == 'mockp2rhot') {
                 }
             }
         })
-    )
+    );
 } else {
     webpackConfig.plugins.push(
         new webpack.LoaderOptionsPlugin({
             options: {
-                postcss: function () {
-                    return [precss, autoprefixer({
-                        browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
-                    })];
+                postcss: function() {
+                    return [
+                        precss,
+                        autoprefixer({
+                            browers: [
+                                'last 2 versions',
+                                'ie >= 9',
+                                '> 5% in CN'
+                            ]
+                        })
+                    ];
                     // return [px2rem({
                     //     remUnit: 75
                     // }), autoprefixer({
@@ -88,7 +114,7 @@ if (env == 'mockp2r' || env == 'mockp2rhot') {
                 }
             }
         })
-    )
+    );
 }
 //输出css配置
 webpackConfig.plugins.push(new ExtractTextPlugin('assets/css/[name].css'));
@@ -103,39 +129,52 @@ webpackConfig.module.loaders.push({
     loader: 'url-loader?limit=10240&name=assets/img/[name].[ext]'
 });
 for (var item in webpackConfig.entry) {
-    console.log("检查入口是否需要排除" + item);
-    if (devconfig.excludes && devconfig.excludes.length > 0 && devconfig.excludes.contains(item)) {
-        console.log("需要排除入口" + item);
+    console.log('检查入口是否需要排除' + item);
+    if (
+        devconfig.excludes &&
+        devconfig.excludes.length > 0 &&
+        devconfig.excludes.contains(item)
+    ) {
+        console.log('需要排除入口' + item);
         delete webpackConfig.entry[item];
     }
 }
-console.log("排除后的入口列表" + JSON.stringify(webpackConfig.entry));
+console.log('排除后的入口列表' + JSON.stringify(webpackConfig.entry));
 var appPageDir = path.resolve(__dirname, '../src/apps');
 var pages = Object.keys(helpers.getEntry(appPageDir + '/*/*.php'));
-pages.forEach(function (pathname) {
-    console.log("模板文件" + pathname);
-    console.log("检查模板是否需要排除" + item);
-    if (devconfig.excludes && devconfig.excludes.length > 0 && devconfig.excludes.contains(pathname)) {
-        console.log("需要排除模板" + item);
+pages.forEach(function(pathname) {
+    console.log('模板文件' + pathname);
+    console.log('检查模板是否需要排除' + item);
+    if (
+        devconfig.excludes &&
+        devconfig.excludes.length > 0 &&
+        devconfig.excludes.contains(pathname)
+    ) {
+        console.log('需要排除模板' + item);
         return false;
     }
     var conf = {
         filename: pathname + '.php', //生成的html存放路径，相对于path
         template: appPageDir + '/' + pathname + '/' + pathname + '.php', //html模板路径
         inject: false, //js插入的位置，true/'head'/'body'/false
-        publicPath:webpackConfig.output.publicPath
+        publicPath: webpackConfig.output.publicPath
     };
     if (pathname in webpackConfig.entry) {
         conf.inject = 'body';
-        
+
         var _chunks = ['vendors'];
-        if (env == 'mock' || env == 'mockhot' || env == 'mockp2r' || env == 'mockp2rhot') {
+        if (
+            env == 'mock' ||
+            env == 'mockhot' ||
+            env == 'mockp2r' ||
+            env == 'mockp2rhot'
+        ) {
             _chunks.push('mockData');
         }
         _chunks.push(pathname);
         conf.chunks = _chunks;
         // conf.chunksSortMode = 'dependency';
-        conf.chunksSortMode = function (chunk1, chunk2) {
+        conf.chunksSortMode = function(chunk1, chunk2) {
             var orders = conf.chunks;
             var order1 = orders.indexOf(chunk1.names[0]);
             var order2 = orders.indexOf(chunk2.names[0]);
@@ -146,13 +185,13 @@ pages.forEach(function (pathname) {
             } else {
                 return 0;
             }
-        }
+        };
     }
     webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 });
 webpackConfig = Object.assign(webpackConfig, {
     devServer: {
-        contentBase: path.join(__dirname, "../dist"), //本地服务器所加载的页面所在的目录
+        contentBase: path.join(__dirname, '../dist'), //本地服务器所加载的页面所在的目录
         compress: true,
         publicPath: '/',
         historyApiFallback: true, //不跳转
@@ -165,7 +204,7 @@ webpackConfig = Object.assign(webpackConfig, {
         proxy: {
             '*': {
                 target: 'http://s.ahaschool.com',
-                secure: false,
+                secure: false
             }
         }
     }

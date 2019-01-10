@@ -75,11 +75,11 @@ pages.forEach(function(pathname) {
         filename: pathname + '.php', //生成的html存放路径，相对于path
         template: appPageDir + '/' + pathname + '/' + pathname + '.php', //html模板路径
         inject: false, //js插入的位置，true/'head'/'body'/false
-        publicPath:webpackConfig.output.publicPath
+        publicPath: webpackConfig.output.publicPath
     };
     if (pathname in webpackConfig.entry) {
         conf.inject = 'body';
-         
+
         conf.chunks = ['vendors', pathname];
         // conf.chunksSortMode = 'dependency';
         conf.chunksSortMode = function(chunk1, chunk2) {

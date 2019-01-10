@@ -20,25 +20,30 @@ var webpackConfig = {
         hotUpdateChunkFilename: 'assets/js/[id].[chunkhash:8].min.js',
         publicPath: '/'
     }
-}
+};
 webpackConfig = Object.assign(commonConfig, webpackConfig);
-console.log("prod文件列表：" + JSON.stringify(webpackConfig.entry));
-webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    names: ['vendors'],
-    minChunks: Infinity
-}));
+console.log('prod文件列表：' + JSON.stringify(webpackConfig.entry));
+webpackConfig.plugins.push(
+    new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendors'],
+        minChunks: Infinity
+    })
+);
 webpackConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
         options: {
-            postcss: function () {
+            postcss: function() {
                 // return [precss, autoprefixer({
                 //     browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
                 // })];
-                return [px2rem({
-                    remUnit: 75
-                }), autoprefixer({
-                    browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
-                })];
+                return [
+                    px2rem({
+                        remUnit: 75
+                    }),
+                    autoprefixer({
+                        browers: ['last 2 versions', 'ie >= 9', '> 5% in CN']
+                    })
+                ];
             },
             htmlLoader: {
                 ignoreCustomFragments: [/\{\{.*?}}/],
@@ -47,9 +52,11 @@ webpackConfig.plugins.push(
             }
         }
     })
-)
+);
 //输出css配置
-webpackConfig.plugins.push(new ExtractTextPlugin('assets/css/[name].[chunkhash:8].css'));
+webpackConfig.plugins.push(
+    new ExtractTextPlugin('assets/css/[name].[chunkhash:8].css')
+);
 //输出字体文件
 webpackConfig.module.loaders.push({
     test: /\.(woff|woff2|eot|ttf|svg)(\?[a-z0-9]+)?$/,
@@ -62,20 +69,20 @@ webpackConfig.module.loaders.push({
 });
 var appPageDir = path.resolve(__dirname, '../src/apps');
 var pages = Object.keys(helpers.getEntry(appPageDir + '/*/*.php'));
-pages.forEach(function (pathname) {
-    console.log("模板文件" + pathname);
+pages.forEach(function(pathname) {
+    console.log('模板文件' + pathname);
     var conf = {
         filename: pathname + '.php', //生成的html存放路径，相对于path
         template: appPageDir + '/' + pathname + '/' + pathname + '.php', //html模板路径
         inject: false, //js插入的位置，true/'head'/'body'/false
-        publicPath:webpackConfig.output.publicPath
+        publicPath: webpackConfig.output.publicPath
     };
     if (pathname in webpackConfig.entry) {
         conf.inject = 'body';
-         
+
         conf.chunks = ['vendors', pathname];
         // conf.chunksSortMode = 'dependency';
-        conf.chunksSortMode = function (chunk1, chunk2) {
+        conf.chunksSortMode = function(chunk1, chunk2) {
             var orders = conf.chunks;
             var order1 = orders.indexOf(chunk1.names[0]);
             var order2 = orders.indexOf(chunk2.names[0]);
@@ -86,7 +93,7 @@ pages.forEach(function (pathname) {
             } else {
                 return 0;
             }
-        }
+        };
     }
     webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 });
