@@ -559,18 +559,6 @@ ins {
     filter:FlipV;
 }
 
-/*页面第一次加载*/
-
-.viewloading {
-    text-align: center;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    height: 60px;
-    width: 750px;
-    margin-top: -15px;
-    margin-left: -375px;
-}
 
 .hide {
     display: none !important;
@@ -593,4 +581,24 @@ input::-webkit-input-placeholder {
             font-size: 30px !important;
         }
     }
+}
+
+/*遮挡avalon未加载完毕时的语法*/
+
+[ms-controller],
+[ms-important] {
+    display: none
+}
+
+/*页面第一次加载*/
+
+.viewloading {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 30px;
+    width: 750px;
+    margin-top: -15px;
+    margin-left: -375px;
 }

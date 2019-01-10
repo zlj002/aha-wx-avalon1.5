@@ -1,3 +1,4 @@
+require('./debug.less');
 var Sys = require('sys'); 
 var Toastr = require('toastr');
 var wechat = require('wechat');
