@@ -27,7 +27,7 @@ module.exports = {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         alias: {
             jquery: srcVendorsDir + '/jquery',
-            avalon: srcVendorsDir + '/avalon.shim',
+            avalon: srcVendorsDir + '/avalon.shim.min',
             mmPromise: srcVendorsDir + '/mmRouter/mmPromise',
             mmRouter: srcVendorsDir + '/mmRouter/mmRouter',
             mmState: srcVendorsDir + '/mmRouter/mmState',
